@@ -42,22 +42,23 @@ const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-// const getSingleStudent = async (req: Request, res: Response) => {
-//   try {
-//     const { studentId } = req.params;
-//     const result = await StudentServices.getSingleStudentFromDb(studentId);
-//     res.status(200).json({
-//       success: true,
-//       message: 'Student Get successfully',
-//       data: result,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+const getSingleProducts = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const result = await ProductServices.getSingleProductsFromDb(productId);
+    res.status(200).json({
+      success: true,
+      message: 'Product fetched successfully!',
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const ProductController = {
     createProduct,
-    getAllProducts
-//   getSingleStudent,
+    getAllProducts,
+    getSingleProducts
+
 };

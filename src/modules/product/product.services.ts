@@ -11,16 +11,16 @@ const getAllProductsFromDb = async () => {
   return result;
 };
 
-// const getSingleStudentFromDb = async (_id: string) => {
-//   const result = await StudentModel.findOne({ _id });
-//   return result;
-// };
+const getSingleProductsFromDb = async (_id: string) => {
+  const result = await ProductModel.findOne({ _id });
+  return result;
+};
 
 
 
 export const ProductServices = {
     createProductDB,
     getAllProductsFromDb,
+    getSingleProductsFromDb
 
-//   getSingleStudentFromDb,
 };
