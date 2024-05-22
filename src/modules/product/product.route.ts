@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post('/api/products', ProductController.createProduct);
 
-// router.get('/', StudentController.getStudents);
+router.get('/api/products', ProductController.getAllProducts);
 
 // router.get('/:studentId', StudentController.getSingleStudent);
 

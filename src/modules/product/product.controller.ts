@@ -29,18 +29,18 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
-// const getStudents = async (req: Request, res: Response) => {
-//   try {
-//     const result = await StudentServices.getStudentsFromDb();
-//     res.status(200).json({
-//       success: true,
-//       message: 'Student created successfully',
-//       data: result,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+const getAllProducts = async (req: Request, res: Response) => {
+  try {
+    const result = await ProductServices.getAllProductsFromDb();
+    res.status(200).json({
+      success: true,
+      message: 'Products fetched successfully!',
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 // const getSingleStudent = async (req: Request, res: Response) => {
 //   try {
@@ -58,6 +58,6 @@ const createProduct = async (req: Request, res: Response) => {
 
 export const ProductController = {
     createProduct,
-//   getStudents,
+    getAllProducts
 //   getSingleStudent,
 };

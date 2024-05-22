@@ -6,10 +6,10 @@ const createProductDB = async (product: Product) => {
   return result;
 };
 
-// const getStudentsFromDb = async () => {
-//   const result = await StudentModel.find();
-//   return result;
-// };
+const getAllProductsFromDb = async () => {
+  const result = await ProductModel.find();
+  return result;
+};
 
 // const getSingleStudentFromDb = async (_id: string) => {
 //   const result = await StudentModel.findOne({ _id });
@@ -20,6 +20,7 @@ const createProductDB = async (product: Product) => {
 
 export const ProductServices = {
     createProductDB,
-//   getStudentsFromDb,
+    getAllProductsFromDb,
+
 //   getSingleStudentFromDb,
 };
