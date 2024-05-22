@@ -16,7 +16,7 @@ const productJoiSchema = Joi.object({
         quantity: Joi.number().required(),
         inStock: Joi.boolean().required()
     }).required(),
-    isDelete: Joi.boolean(),
+
 });
 
 

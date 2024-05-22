@@ -16,8 +16,23 @@ const getSingleProductsFromDb = async (_id: string) => {
   return result;
 };
 
+
+
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getSearchProductsFromDb = async (searchValue:any) => {
+
+  const item = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const value = new RegExp(item, "i")
+  const result = await ProductModel.find({name: value})
+  return result;
+};
+
+
+
+
 const deleteProductsFromDb = async (_id: string) => {
-  const result = await ProductModel.updateOne({ _id }, {isDelete: true});
+  const result = await ProductModel.deleteOne({ _id });
   return result;
 };
 
@@ -27,6 +42,7 @@ export const ProductServices = {
     createProductDB,
     getAllProductsFromDb,
     getSingleProductsFromDb,
-    deleteProductsFromDb
+    deleteProductsFromDb,
+    getSearchProductsFromDb
 
 };

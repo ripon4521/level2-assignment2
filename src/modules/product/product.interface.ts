@@ -19,7 +19,7 @@
         quantity: number;
         inStock: boolean;
     },
-    isDelete: boolean;
+   
     
   };
   
