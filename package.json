@@ -1,7 +1,6 @@
 {
-  "name": "mogose-typescript",
+  "name": "assignment2",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start:prod": "node ./dist/server.js",
@@ -35,5 +34,6 @@
     "prettier": "^3.2.5",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.9.0"
-  }
+  },
+  "description": ""
 }
