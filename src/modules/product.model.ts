@@ -22,7 +22,20 @@ const productSchema = new Schema<Product>({
     inventory : {
         quantity: {type: Number , required: true},
         inStock: {type: Boolean , required: true}
-    }
+    },
+    isDelete: {type: Boolean , default: false}
 });
+
+
+productSchema.pre("find", function(next){
+    this.find({isDelete: {$ne : true}})
+  next()
+})
+productSchema.pre("findOne", function(next){
+    this.find({isDelete: {$ne : true}})
+  next()
+})
+
+
 
 export const ProductModel = model<Product>('Product', productSchema);
