@@ -18,7 +18,7 @@ const createProductDB = async (product: Product) => {
 
 
 
-export const StudentServices = {
+export const ProductServices = {
     createProductDB,
 //   getStudentsFromDb,
 //   getSingleStudentFromDb,
