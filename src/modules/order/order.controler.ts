@@ -2,25 +2,71 @@
 import { Request, Response } from 'express';
 import orderSchema from './order.validation';
 import { OrderServices } from './order.services';
-
+import { ProductModel } from '../product.model';
 
 const createOrder = async (req: Request, res: Response) => {
+  const { order: orderData } = req.body;
+  const { error, value } = orderSchema.validate(orderData);
+  const { email, productId, price, quantity } = value;
+  if (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something Went Wrong',
+      error: error.details,
+    });
+  }
+  //   console.log(productId)
   try {
-    const { order: orderData } = req.body;
-    const { error, value } = orderSchema.validate(orderData);
-    if (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Something Went Wrong',
-        error: error.details,
-      });
+    const product = await ProductModel.findOne({ productId });
+    // console.log(product)
+
+    if (!product) {
+      return res
+        .status(200)
+        .json({ success: false, message: 'Order not found' });
+    }
+    if (product.inventory.quantity < quantity) {
+      return res
+        .status(200)
+        .json({
+          success: false,
+          message: 'Insufficient quantity available in inventory',
+        });
     }
 
     const result = await OrderServices.createOrderDB(value);
+    product.inventory.quantity -= quantity;
+    product.inventory.inStock = product.inventory.inStock === false;
 
+    await product.save();
     res.status(200).json({
       success: true,
       message: 'Order created successfully!',
+      data: result,
+    });
+  } catch (error) {
+    res.status(200).json({
+      success: false,
+      message: 'Something Went Wrong',
+      error: error,
+    });
+  }
+};
+
+const getAllOrders = async (req: Request, res: Response) => {
+  try {
+    let result;
+    const seacrh = req.query;
+    if (seacrh.email) {
+      const value = seacrh.email;
+      result = await OrderServices.getSearchOrderFromDB(value);
+    } else {
+      result = await OrderServices.getAllOrderFromDb();
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Products fetched successfully!',
       data: result,
     });
   } catch (err: any) {
@@ -31,35 +77,6 @@ const createOrder = async (req: Request, res: Response) => {
     });
   }
 };
-
-// const getAllProducts = async (req: Request, res: Response) => {
-
-//   try {
-//     let result;
-//     const seacrh = req.query;
-// if (seacrh.searchTerm) {
-//   const value = seacrh.searchTerm;
-//   result = await ProductServices.getSearchProductsFromDb(value);
-   
-// } else {
-//    result = await ProductServices.getAllProductsFromDb();
-// }
-   
- 
-//     res.status(200).json({
-//       success: true,
-//       message: 'Products fetched successfully!',
-//       data: result,
-//     });
-//   } catch (err: any) {
-//     res.status(500).json({
-//       success: false,
-//       message: 'Something Went Wrong',
-//       error: err.details,
-//     });
-//   }
-// };
-
 
 // const getSearchProducts = async (req: Request, res: Response) => {
 //   try {
@@ -97,8 +114,10 @@ const createOrder = async (req: Request, res: Response) => {
 //   }
 
 export const OrderController = {
-    createOrder
-//   getAllProducts,
+  createOrder,
+  getAllOrders,
+
+  //   getAllProducts,
 
   // getSearchProducts,
 };

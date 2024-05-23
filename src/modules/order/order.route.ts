@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post('/api/orders', OrderController.createOrder);
 
-// router.get('/api/products', ProductController.getAllProducts);
+router.get('/api/orders', OrderController.getAllOrders);
 
 // router.get('/api/products', ProductController.getSearchProducts);
 

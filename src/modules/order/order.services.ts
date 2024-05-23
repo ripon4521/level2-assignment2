@@ -8,10 +8,20 @@ const createOrderDB = async (order: Order) => {
   return result;
 };
 
-// const getAllProductsFromDb = async () => {
-//   const result = await ProductModel.find();
-//   return result;
-// };
+const getAllOrderFromDb = async () => {
+  const result = await OrderModel.find();
+  return result;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getSearchOrderFromDB = async (searchValue:any) => {
+
+    // const item = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const value = new RegExp(searchValue, "i")
+    const result = await OrderModel.find({email: searchValue})
+    return result;
+  };
+  
 
 
 
@@ -19,7 +29,9 @@ const createOrderDB = async (order: Order) => {
 
 
 export const OrderServices = {
-    createOrderDB
+    createOrderDB,
+    getAllOrderFromDb,
+    getSearchOrderFromDB
     // getAllProductsFromDb,
    
 
