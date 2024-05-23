@@ -20,7 +20,7 @@ This project is a starter template for building a RESTful API using TypeScript, 
 1. **Clone the repository:**
 
     ```sh
-    git clone https://github.com/your-username/your-repo-name.git
+    git clone https://github.com/ripon4521/level2-assignment2.git
     cd your-repo-name
     ```
 
