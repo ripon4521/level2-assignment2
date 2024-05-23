@@ -36,6 +36,12 @@ const deleteProductsFromDb = async (_id: string) => {
   return result;
 };
 
+const updateProductsFromDb = async (_id: string) => {
+console.log(_id)
+  const result = await ProductModel.updateMany({ _id }, {  product: productData });
+  return result;
+};
+
 
 
 export const ProductServices = {
@@ -43,6 +49,7 @@ export const ProductServices = {
     getAllProductsFromDb,
     getSingleProductsFromDb,
     deleteProductsFromDb,
-    getSearchProductsFromDb
+    getSearchProductsFromDb,
+    updateProductsFromDb
 
 };
