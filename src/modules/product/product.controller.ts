@@ -23,6 +23,7 @@ const createProduct = async (req: Request, res: Response) => {
       message: 'Product created successfully!',
       data: result,
     });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(500).json({
       success: false,
@@ -51,6 +52,7 @@ if (seacrh.searchTerm) {
       message: 'Products fetched successfully!',
       data: result,
     });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(500).json({
       success: false,
@@ -88,6 +90,7 @@ const getSingleProducts = async (req: Request, res: Response) => {
       message: 'Product fetched successfully!',
       data: result,
     });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(500).json({
       success: false,
@@ -106,6 +109,7 @@ const deleteProduct = async (req: Request, res: Response) => {
       message: 'Product deleted successfully!',
       data: null,
     });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(500).json({
       success: false,
@@ -128,14 +132,12 @@ const updateProduct = async (req: Request, res: Response) => {
   }
 
   const { productId } = value;
-  console.log(productId);
 
   try {
     const productData = await ProductModel.findOne({ productId });
 
     if (productData) {
       const result = await ProductServices.updateProductsFromDb(value); // Pass validated data
-      console.log(result);
       return res.status(200).json({
         success: true,
         message: 'Product updated successfully!',
@@ -147,8 +149,8 @@ const updateProduct = async (req: Request, res: Response) => {
         message: 'Product not found',
       });
     }
-  } catch (err) {
-    console.error(err);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
     return res.status(500).json({
       success: false,
       message: 'Something went wrong',

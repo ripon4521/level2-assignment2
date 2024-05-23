@@ -7,7 +7,7 @@ import { ProductModel } from '../product.model';
 const createOrder = async (req: Request, res: Response) => {
   const { order: orderData } = req.body;
   const { error, value } = orderSchema.validate(orderData);
-  const { email, productId, price, quantity } = value;
+  const {  productId, quantity } = value;
   if (error) {
     res.status(500).json({
       success: false,

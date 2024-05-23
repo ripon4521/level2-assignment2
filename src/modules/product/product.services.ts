@@ -37,7 +37,7 @@ const deleteProductsFromDb = async (_id: string) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const updateProductsFromDb = async (product) => {
+const updateProductsFromDb = async (product : any) => {
   const { productId, ...updateData } = product;
   const result = await ProductModel.findOneAndUpdate(
     { productId }, // Filter

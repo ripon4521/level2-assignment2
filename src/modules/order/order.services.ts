@@ -17,7 +17,7 @@ const getAllOrderFromDb = async () => {
 const getSearchOrderFromDB = async (searchValue:any) => {
 
     // const item = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    const value = new RegExp(searchValue, "i")
+    // const value = new RegExp(searchValue, "i")
     const result = await OrderModel.find({email: searchValue})
     return result;
   };
