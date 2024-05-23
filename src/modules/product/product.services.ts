@@ -36,11 +36,17 @@ const deleteProductsFromDb = async (_id: string) => {
   return result;
 };
 
-const updateProductsFromDb = async (_id: string) => {
-console.log(_id)
-  const result = await ProductModel.updateMany({ _id }, {  product: productData });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const updateProductsFromDb = async (product) => {
+  const { productId, ...updateData } = product;
+  const result = await ProductModel.findOneAndUpdate(
+    { productId }, // Filter
+    updateData,    // Update data
+    { new: true }  // Return the updated document
+  );
   return result;
 };
+
 
 
 

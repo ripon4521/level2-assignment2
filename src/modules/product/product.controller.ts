@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ProductServices } from './product.services';
 import productJoiSchema from './product.validation';
+import { ProductModel } from '../product.model';
 
 
 const createProduct = async (req: Request, res: Response) => {
@@ -114,22 +115,44 @@ const deleteProduct = async (req: Request, res: Response) => {
   }
 };
 
-
 const updateProduct = async (req: Request, res: Response) => {
-  try {
-    const { product: productData } = req.body;
+  const { product } = req.body;
+  const { error, value } = productJoiSchema.validate(product);
 
-    const result = await ProductServices.updateProductsFromDb(productData);
-    res.status(200).json({
-      success: true,
-      message: 'Product Update successfully!',
-      data: result,
-    });
-  } catch (err: any) {
-    res.status(500).json({
+  if (error) {
+    return res.status(400).json({
       success: false,
-      message: 'Something Went Wrong',
-      error: err.details,
+      message: 'Validation Error',
+      error: error.details,
+    });
+  }
+
+  const { productId } = value;
+  console.log(productId);
+
+  try {
+    const productData = await ProductModel.findOne({ productId });
+
+    if (productData) {
+      const result = await ProductServices.updateProductsFromDb(value); // Pass validated data
+      console.log(result);
+      return res.status(200).json({
+        success: true,
+        message: 'Product updated successfully!',
+        data: result,
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: 'Product not found',
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      success: false,
+      message: 'Something went wrong',
+      error: err.message,
     });
   }
 };
