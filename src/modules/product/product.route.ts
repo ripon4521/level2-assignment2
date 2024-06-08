@@ -12,7 +12,7 @@ router.get('/api/products/:productId', ProductController.getSingleProducts);
 
 router.delete('/api/products/:productId', ProductController.deleteProduct);
 
-router.put('/api/products/:productId', ProductController.updateProduct);
+router.put('/api/products/:_id', ProductController.updateProduct);
 
 
 

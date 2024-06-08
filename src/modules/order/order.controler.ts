@@ -3,11 +3,13 @@ import { Request, Response } from 'express';
 import orderSchema from './order.validation';
 import { OrderServices } from './order.services';
 import { ProductModel } from '../product.model';
+import { ObjectId } from 'mongodb';
 
 const createOrder = async (req: Request, res: Response) => {
-  const { order: orderData } = req.body;
-  const { error, value } = orderSchema.validate(orderData);
+  const order = req.body;
+  const { error, value } = orderSchema.validate(order);
   const {  productId, quantity } = value;
+  // console.log(productId, quantity)
   if (error) {
     res.status(500).json({
       success: false,
@@ -16,9 +18,13 @@ const createOrder = async (req: Request, res: Response) => {
     });
   }
   //   console.log(productId)
+  // const objectId = new ObjectId(productId);
+  // console.log(objectId)
   try {
-    const product = await ProductModel.findOne({ productId });
-    // console.log(product)
+
+   
+    const product = await ProductModel.findOne({ _id :productId });
+    console.log(product)
 
     if (!product) {
       return res

@@ -6,12 +6,12 @@ import { ProductModel } from '../product.model';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const { product: productData } = req.body;
-    const { error, value } = productJoiSchema.validate(productData);
+    const  product = req.body;
+    const { error, value } = productJoiSchema.validate(product);
     if (error) {
       res.status(500).json({
         success: false,
-        message: 'Something Went Wrong',
+        message: 'Validation Error  Went Wrong',
         error: error.details,
       });
     }
@@ -120,10 +120,13 @@ const deleteProduct = async (req: Request, res: Response) => {
 };
 
 const updateProduct = async (req: Request, res: Response) => {
-  const { product } = req.body;
+  const product = req.body;
+  console.log('Received product:', product);
+
   const { error, value } = productJoiSchema.validate(product);
 
   if (error) {
+    console.error('Validation Error:', error.details);
     return res.status(400).json({
       success: false,
       message: 'Validation Error',
@@ -131,13 +134,22 @@ const updateProduct = async (req: Request, res: Response) => {
     });
   }
 
-  const { productId } = value;
+  const { _id } = req.params;
+
+  if (!_id) {
+    return res.status(400).json({
+      success: false,
+      message: 'Product ID (_id) is required',
+    });
+  }
 
   try {
-    const productData = await ProductModel.findOne({ productId });
+    const productData = await ProductModel.findOne({ _id });
+    console.log('Product data from DB:', productData);
 
     if (productData) {
-      const result = await ProductServices.updateProductsFromDb(value); // Pass validated data
+      const result = await ProductServices.updateProductsFromDb({ ...value, _id }); // Pass validated data with _id
+      console.log('Update result:', result);
       return res.status(200).json({
         success: true,
         message: 'Product updated successfully!',
@@ -149,8 +161,8 @@ const updateProduct = async (req: Request, res: Response) => {
         message: 'Product not found',
       });
     }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
+    console.error('Error during update:', err.message);
     return res.status(500).json({
       success: false,
       message: 'Something went wrong',

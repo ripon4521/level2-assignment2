@@ -11,6 +11,12 @@ app.use('/', ProductRoutes);
 
 app.use('/', OrderRoutes);
 
+const GetAcontroller = (req: Request, res: Response) => {
+  res.send('Welcome to the assignment 2 server');
+};
+app.get('/', GetAcontroller);
+
+
 app.use((req, res, next) => {
   res.status(200).send({
     
@@ -18,11 +24,9 @@ app.use((req, res, next) => {
       "message": "Route not found"
      
   });
+  next()
 });
 
-const GetAcontroller = (req: Request, res: Response) => {
-  res.send('Welcome to the assignment 2 server');
-};
-app.get('/', GetAcontroller);
+
 
 export default app;

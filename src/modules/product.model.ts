@@ -5,7 +5,6 @@ import { Product } from './product/product.interface';
 
 const productSchema = new Schema<Product>({
     name: {type: String , required: true},
-    productId : {type: String, required: true},
     description: {type: String, required: true},
     price: {type: Number , required: true},
     category: {type: String , required: true},
